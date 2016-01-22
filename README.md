@@ -29,3 +29,54 @@ var myEfficientFn = debounce(function() {
 window.addEventListener('resize', myEfficientFn);
 ```
 debounce не позволит обратному вызову исполняться чаще, чем один раз в заданный период времени. Это особенно важно при назначении функции обратного вызова для часто вызываемых событий.
+
+
+## poll
+Функцию debounce не всегда возможно подключить для обозначения желаемого состояния: если событие не существует — это будет не возможно. В этом случае вы должны проверять состояние с помощью интервалов:
+```javascript
+function poll(fn, callback, errback, timeout, interval) {
+    var endTime = Number(new Date()) + (timeout || 2000);
+    interval = interval || 100;
+
+    (function p() {
+            // Если условие не выполнено, то мы закончили
+            if(fn()) {
+                callback();
+            }
+            // Если условие выполнено, но таймаут ещё не наступл — повторяем
+            else if (Number(new Date())  0;
+    },
+    function() {
+        // Колбек, который будет вызван в случае успеха
+    },
+    function() {
+        // Колбек, который будет вызван в случае неудачи
+    }
+);
+```
+
+## once
+Иногда бывает нужно, чтобы функция выполнилась только один раз, как если бы вы использовали событие onload. Функция once даёт такую возможность:
+
+```javascript
+function once(fn, context) { 
+    var result;
+
+    return function() { 
+        if(fn) {
+            result = fn.apply(context || this, arguments);
+            fn = null;
+        }
+
+        return result;
+    };
+}
+
+// Пример использования
+var canOnlyFireOnce = once(function() {
+    console.log('Запущено!');
+});
+canOnlyFireOnce(); // "Запущено!"
+canOnlyFireOnce(); // Не запущено
+```
+once гарантирует, что заданная функция будет вызвана только один раз, что предотвращает повторную инициализацию.
