@@ -19,7 +19,7 @@ function debounce(func, wait, immediate) {
         if (callNow) func.apply(context, args);
     };
 };
-``` 
+```
 
 ```javascript
 // Использование
@@ -59,10 +59,10 @@ function poll(fn, callback, errback, timeout, interval) {
 Иногда бывает нужно, чтобы функция выполнилась только один раз, как если бы вы использовали событие onload. Функция once даёт такую возможность:
 
 ```javascript
-function once(fn, context) { 
+function once(fn, context) {
     var result;
 
-    return function() { 
+    return function() {
         if(fn) {
             result = fn.apply(context || this, arguments);
             fn = null;
@@ -80,3 +80,38 @@ canOnlyFireOnce(); // "Запущено!"
 canOnlyFireOnce(); // Не запущено
 ```
 once гарантирует, что заданная функция будет вызвана только один раз, что предотвращает повторную инициализацию.
+
+## version sort
+Готовая функция для сортировки версий
+
+```javascript
+var sorter = function(a, b){
+    a = a.split('.');
+    b = b.split('.');
+    var max = Math.max(a.length, b.length);
+    var an, bn, result = -1;
+
+    for (var i = 0; i < max; i++) {
+        an = parseInt(a[i]) || 0;
+        bn = parseInt(b[i]) || 0;
+
+        if (an > bn) {
+            result =  1;
+            break;
+        }
+        else if (an < bn) {
+            result =  -1;
+            break;
+        }
+        else {
+            result = 0;    
+        }
+    }
+    return result;
+};
+
+
+// Пример использования
+var arr = ["0.5.12", "1.52,12", "0.1.2.3.4.5", "1.4"];
+arr.sort(sorter);
+```
