@@ -85,33 +85,29 @@ once гарантирует, что заданная функция будет �
 Готовая функция для сортировки версий
 
 ```javascript
-var sorter = function(a, b){
+var sorter = function(a, b) {
     a = a.split('.');
     b = b.split('.');
-    var max = Math.max(a.length, b.length);
-    var an, bn, result = -1;
-
+    var max = Math.max(a.length, b.length),
+       result, sa, sb;
+    
     for (var i = 0; i < max; i++) {
-        an = parseInt(a[i]) || 0;
-        bn = parseInt(b[i]) || 0;
+        sa = Number(a[i]) || 0;
+        sb = Number(b[i]) || 0;
 
-        if (an > bn) {
-            result =  1;
-            break;
+        if (sa > sb) {
+            return 1;
         }
-        else if (an < bn) {
-            result =  -1;
-            break;
+        else if (sa < sb) {
+            return -1;
         }
-        else {
-            result = 0;    
-        }
+        
     }
-    return result;
+    return 0;
 };
 
 
 // Пример использования
-var arr = ["0.5.12", "1.52,12", "0.1.2.3.4.5", "1.4"];
-arr.sort(sorter);
+var arr = ["1.2.4", "0.2.2", "0.2.3", "22.22.2", "0.2.4", "0.22.3", "0.22.1", "0.0.1", "0.1.2.3.4.5.6.7", "0.0.3"];
+var sortedArr = arr.sort(sorter);
 ```
