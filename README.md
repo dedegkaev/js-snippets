@@ -111,3 +111,27 @@ var sorter = function(a, b) {
 var arr = ["1.2.4", "0.2.2", "0.2.3", "22.22.2", "0.2.4", "0.22.3", "0.22.1", "0.0.1", "0.1.2.3.4.5.6.7", "0.0.3"];
 var sortedArr = arr.sort(sorter);
 ```
+
+
+## Сортировка методом пузырька
+
+```javascript
+function BubbleSort(arr) {                            
+    var length = arr.length, lower_number; 
+    for (var i = 0; i < length; i++) { 
+        for (var j = 0; j < length-i; j++) { 
+            if (arr[j] > arr[j+1]) { 
+                lower_number = arr[j+1]; 
+                arr[j+1] = arr[j]; 
+                arr[j] = lower_number; 
+            }
+        }
+     }                     
+    return arr; 
+}
+var arr = [1,4,95,17,22,19,2,12,0,99];
+BubbleSort(arr);  // [0, 1, 2, 4, 12, 17, 19, 22, 95, 99]
+```
+
+
+
