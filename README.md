@@ -90,7 +90,7 @@ var sorter = function(a, b) {
     b = b.split('.');
     var max = Math.max(a.length, b.length),
        result, sa, sb;
-    
+
     for (var i = 0; i < max; i++) {
         sa = Number(a[i]) || 0;
         sb = Number(b[i]) || 0;
@@ -101,7 +101,7 @@ var sorter = function(a, b) {
         else if (sa < sb) {
             return -1;
         }
-        
+
     }
     return 0;
 };
@@ -117,21 +117,56 @@ var sortedArr = arr.sort(sorter);
 
 ```javascript
 function BubbleSort(arr) {                            
-    var length = arr.length, lower_number; 
-    for (var i = 0; i < length; i++) { 
-        for (var j = 0; j < length-i; j++) { 
-            if (arr[j] > arr[j+1]) { 
-                lower_number = arr[j+1]; 
-                arr[j+1] = arr[j]; 
-                arr[j] = lower_number; 
+    var length = arr.length, lower_number;
+    for (var i = 0; i < length; i++) {
+        for (var j = 0; j < length-i; j++) {
+            if (arr[j] > arr[j+1]) {
+                lower_number = arr[j+1];
+                arr[j+1] = arr[j];
+                arr[j] = lower_number;
             }
         }
      }                     
-    return arr; 
+    return arr;
 }
 var arr = [1,4,95,17,22,19,2,12,0,99];
 BubbleSort(arr);  // [0, 1, 2, 4, 12, 17, 19, 22, 95, 99]
 ```
 
+## Моя реализация шаблона observer.
+Из особенностей: Если вызвать событие на которое еще не подписались, то
+вызов колбека произойдет на момент подписки на это событие.  
 
+```javascript
+var observer = new function() {
+	_this = this;
+	var published = {};
 
+	_this.on = function(event_name, cb) {
+		var cache;
+		if	(!published[event_name]) {
+			published[event_name] = [];
+			published[event_name].push(cb);
+		}
+		else if (!Array.isArray(published[event_name])) {
+			cache = published[event_name];
+			published[event_name] = [];
+			published[event_name].push(cb);
+			_this.trigger(event_name, cache);
+		}
+	};
+
+	_this.trigger = function(event_name, data) {
+		if	(published[event_name]) {
+			published[event_name].forEach(function(cb, index){
+				cb(data);
+			});
+		}
+		else {
+			published[event_name] = data;
+		}
+	};
+};
+
+observer.on()
+```
