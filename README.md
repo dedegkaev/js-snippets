@@ -82,7 +82,7 @@ canOnlyFireOnce(); // Не запущено
 once гарантирует, что заданная функция будет вызвана только один раз, что предотвращает повторную инициализацию.
 
 ## version sort
-Готовая функция для сортировки версий
+Функция для сортировки версий
 
 ```javascript
 var sorter = function(a, b) {
@@ -169,4 +169,32 @@ var observer = new function() {
 };
 
 observer.on()
+```
+
+## Расширяет объект target свойствами объекта source и возвращает target.
+Аналогичен методу jQuery $.extend.
+
+```javascript
+function merge(target, source) {
+	if (source == null) {
+		return target;
+	}
+
+	target = target || {};
+	for (var key in source) {
+		if (source.hasOwnProperty(key)) {
+			try {
+				if (source[key].constructor === Object) {
+					target[key] = merge(target[key], source[key]);
+				} else {
+					target[key] = source[key];
+				}
+			} catch (e) {
+				target[key] = source[key];
+			}
+		}
+	}
+
+	return target;
+}
 ```
